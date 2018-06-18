@@ -1,3 +1,4 @@
+# Filter by URI and IP Client Address from a DataGroup called clientes_ips_zabbix
 when HTTP_REQUEST {
 	if { ( [string tolower [HTTP::uri]] starts_with "/zabbix" ) and ([class match [IP::client_addr] equals clientes_ips_zabbix]) } 
 		{
