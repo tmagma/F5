@@ -1,0 +1,17 @@
+when HTTP_REQUEST {
+
+switch -glob [string tolower [HTTP::uri]] {
+    "/def/ghi/URI_1*" {
+        pool  servers_URI_1
+    }
+    "/def/ghi/URI_2*" {
+        pool servers_URI_2
+    }
+    "/def/ghi/URI_3*" {
+        pool servers_URI_3
+    }
+    default {
+        pool servers_default_pool
+    }
+}
+}
