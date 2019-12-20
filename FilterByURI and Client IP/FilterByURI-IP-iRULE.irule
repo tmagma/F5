@@ -1,11 +1,14 @@
+# Autor: Nabil Saez (tmagma@yahoo.com.ar)
+# Modificado por Nabil Saez (tmagma@yahoo.com.ar)
+
 # Filter by URI and IP Client Address from a DataGroup called clientes_ips_zabbix
 when HTTP_REQUEST {
-	if { ( [string tolower [HTTP::uri]] starts_with "/zabbix" ) and ([class match [IP::client_addr] equals clientes_ips_zabbix]) } 
+	if { ( [string tolower [HTTP::uri]] starts_with "/zabbix" ) and ([class match [IP::client_addr] equals clientes_ips_zabbix]) }
 		{
 		pool ZabbixPool
 		log local0. "Cliente [IP::client_addr] accedio a Zabbix."
 		} else {
 		pool OtherPool
 		log local0. "Cliente [IP::client_addr] OtherPool."
-		}  
+		}
 }

@@ -1,3 +1,6 @@
+# Autor: Nabil Saez (tmagma@yahoo.com.ar)
+# Modificado por Nabil Saez (tmagma@yahoo.com.ar)
+
 when HTTP_REQUEST {
 
 switch -glob [string tolower [HTTP::uri]] {

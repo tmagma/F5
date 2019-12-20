@@ -1,6 +1,9 @@
-when CLIENT_ACCEPTED {
-#Declaracion de Variables
+# V1.3
+# Autor: Nabil Saez (tmagma@yahoo.com.ar)
+# Modificado por Nabil Saez (tmagma@yahoo.com.ar)
+#
 
+#Declaracion de Variables
 set ::server_connected_time 0
 set ::ip_server_selected "0.0.0.0"
 set ::server_closed_time 0
@@ -8,9 +11,15 @@ set ::client_closed_time 0
 set ::ip_cliente "0.0.0.0"
 set ::ip_remoto "0.0.0.0"
 
+when CLIENT_ACCEPTED {
 set ::client_accepted_time [clock clicks -milliseconds]
 set ::ip_cliente "[IP::remote_addr]"
 set ::ip_remoto "[IP::remote_addr]"
+log local0. "
+            $::ip_cliente,\
+            $::ip_remoto,\
+            $::client_accepted_time
+            "
 }
 
 #when CLIENT_DATA {
@@ -21,10 +30,15 @@ set ::ip_remoto "[IP::remote_addr]"
 #  set client_request_time [clock clicks -milliseconds]
 #}
 
-
 when SERVER_CONNECTED {
 set ::server_connected_time [clock clicks -milliseconds]
 set ::ip_server_selected "[IP::remote_addr]"
+log local0. "
+            $::ip_cliente,\
+            $::ip_remoto,\
+            $::ip_server_selected,\
+            $::client_accepted_time
+            "
 #TCP::collect
 }
 
@@ -34,20 +48,34 @@ set ::ip_server_selected "[IP::remote_addr]"
 
 when SERVER_CLOSED {
 set ::server_closed_time [clock clicks -milliseconds]
+log local0. "
+            $::ip_cliente,\
+            $::ip_remoto,\
+            $::ip_server_selected,\
+            $::client_accepted_time,\
+            $::server_closed_time
+            "
 }
 
 
 when CLIENT_CLOSED {
 set ::client_closed_time [ clock clicks -milliseconds ]
+log local0. "
+            $::ip_cliente,\
+            $::ip_remoto,\
+            $::ip_server_selected,\
+            $::client_accepted_time,\
+            $::server_closed_time,\
+            $::client_closed_time.\
+            [expr {$::server_closed_time - $::client_accepted_time}]\
+            "
 #$server_data_time,\#
-#log local0.info "$ip_cliente,\ #
-#log local0. "$::ip_cliente,\ #
-log 76.220.157.37 "$::ip_cliente,\
-$::ip_remoto,\
-$::ip_server_selected,\
-$::client_accepted_time,\
-$::server_connected_time,\
-$::server_closed_time,\
-[expr {$::server_closed_time - $::client_accepted_time}]\
-"
+#log local0. "$::ip_cliente,\
+#$::ip_remoto,\
+#$::ip_server_selected,\
+#$::client_accepted_time,\
+#$::server_connected_time,\
+#$::server_closed_time,\
+#[expr {$::server_closed_time - $::client_accepted_time}]\
+#"
 }
