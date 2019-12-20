@@ -1,0 +1,53 @@
+when CLIENT_ACCEPTED {
+#Declaracion de Variables
+
+set ::server_connected_time 0
+set ::ip_server_selected "0.0.0.0"
+set ::server_closed_time 0
+set ::client_closed_time 0
+set ::ip_cliente "0.0.0.0"
+set ::ip_remoto "0.0.0.0"
+
+set ::client_accepted_time [clock clicks -milliseconds]
+set ::ip_cliente "[IP::remote_addr]"
+set ::ip_remoto "[IP::remote_addr]"
+}
+
+#when CLIENT_DATA {
+#TCP::notify request
+#}
+
+#when USER_REQUEST {
+#  set client_request_time [clock clicks -milliseconds]
+#}
+
+
+when SERVER_CONNECTED {
+set ::server_connected_time [clock clicks -milliseconds]
+set ::ip_server_selected "[IP::remote_addr]"
+#TCP::collect
+}
+
+#when SERVER_DATA {
+#  set server_data_time [clock clicks -milliseconds]
+#}
+
+when SERVER_CLOSED {
+set ::server_closed_time [clock clicks -milliseconds]
+}
+
+
+when CLIENT_CLOSED {
+set ::client_closed_time [ clock clicks -milliseconds ]
+#$server_data_time,\#
+#log local0.info "$ip_cliente,\ #
+#log local0. "$::ip_cliente,\ #
+log 76.220.157.37 "$::ip_cliente,\
+$::ip_remoto,\
+$::ip_server_selected,\
+$::client_accepted_time,\
+$::server_connected_time,\
+$::server_closed_time,\
+[expr {$::server_closed_time - $::client_accepted_time}]\
+"
+}
